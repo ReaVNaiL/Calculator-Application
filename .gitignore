@@ -2,4 +2,7 @@ example.py
 example2.py
 
 *pycache
+*.pyc
+*.pyo
+__pycache__/
 example3.py

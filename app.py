@@ -1,3 +1,4 @@
+from os import system
 import colorama as c
 from consolemenu import *
 from consolemenu.items import *
@@ -33,7 +34,7 @@ def start_menu(user_name: str):
     # Create the menu
     menu = ConsoleMenu(
         "Practical Math Application",
-        f"Hi {user_name}!\nA program to help you practice your math skills!",
+        f"Hi {c.Fore.LIGHTYELLOW_EX + user_name}{c.Fore.LIGHTBLUE_EX}!\nA program to help you practice your math skills!",
         formatter=main_menu_format,
     )
 
@@ -58,6 +59,7 @@ def start_menu(user_name: str):
 
 
 if __name__ == "__main__":
-    name = input("Hello! Please enter your name: ")
+    system("cls")
+    name = input(c.Fore.LIGHTYELLOW_EX + "Hello! Please enter your name: ")
     # name = "John"
     start_menu(name)

@@ -1,0 +1,7 @@
+Instructions:
+
+1- Install the packages in the requirements.txt file.
+   * pip install -r requirements.txt
+   
+2- Run the script.
+    * python3 app.py

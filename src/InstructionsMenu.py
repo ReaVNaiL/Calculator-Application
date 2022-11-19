@@ -12,7 +12,7 @@ class InstructionsMenu:
 
     def __new__(self) -> FunctionItem:
         # Read instructions File.
-        with open("./instructions.txt", "r") as f:
+        with open("./data/app_instructions.txt", "r") as f:
             instructions = f.read()
 
         # Set the menu to green on black

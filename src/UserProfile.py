@@ -28,7 +28,7 @@ class UserProfile:
     """
     user = None
     def __new__(self, name: str, main_menu: ConsoleMenu, styling: MenuFormatBuilder) -> SubmenuItem:
-        self.user = Profile(name, 0)
+        self.user = Profile(name)
         profile_submenu = ConsoleMenu("User Profile", "View and edit your profile", formatter=styling)
         
         item1 = FunctionItem("Update Stats", self.update_user_stats, args=[self, profile_submenu])
