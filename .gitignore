@@ -5,4 +5,5 @@ example2.py
 *.pyc
 *.pyo
 __pycache__/
+**/__pycache__/
 example3.py
