@@ -1,0 +1,21 @@
+                                *---*               INSTRUCTIONS:               *---*
+    # The purpose of this program is to help young students to test themselves and practice their basic mathematical skills. #
+    #                                                                                                                        #
+    # The program utilizes quick-recall methodology to ensure students truly understand basic algebra.                       #   
+    #                                                                                                                        #
+    # Our goal is to apply basic knowledge of python script to creating an environment of controlled randomness, while also  # 
+    # keeping track of program history.                                                                                      #   
+    #                                                                                                                        #
+    # Menu:                                                                                                                  #
+    # 1. **User Profile**: Where the user can create a profile and save it to a file.                                        #
+    # 2. **Problems** : Start the problems, and keep track of the user's progress.                                           #
+    # 3. **Instructions** : Instructions for the Application.                                                                #
+    # 4. **Exit** : Exits the program.                                                                                       #   
+    #                                                                                                                        #
+    # Use:                                                                                                                   #
+    # * In the menu, you can choose to play the game, see the high scores, or quit.                                          #
+    # * The problems are randomly generated, so you can play as many times as you want.                                      #
+    # * If you created a profile in the high scores menu, your score will be saved.                                          #
+    # * If you don't create a profile, your score will not be saved.                                                         #
+    #                                                                                                                        #
+    # Press Enter To Return To Menu >> 
