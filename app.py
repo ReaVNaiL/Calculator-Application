@@ -2,8 +2,8 @@ import colorama as c
 from consolemenu import *
 from consolemenu.items import *
 from consolemenu.format import *
-from data.UserProfile import UserProfile as up
-import data.InstructionsMenu as im
+from models.UserProfile import UserProfile as up
+import models.InstructionsMenu as im
 
 def start_menu():
     # Create a menu that looks like this:
