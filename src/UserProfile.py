@@ -7,7 +7,7 @@ class Profile:
     problem_count = 0
     max_difficulty = "Easy"
 
-    def __init__(self, name, age):
+    def __init__(self, name):
         self.name = name
 
     def __repr__(self):
