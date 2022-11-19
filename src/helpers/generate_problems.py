@@ -3,6 +3,11 @@ import random
 
 class Problem:
     attempts_left: int = 3
+    points = {
+        "Easy": 1,
+        "Medium": 3,
+        "Hard": 5,
+    }
 
     def __init__(self, problem: str, solution):
         self.problem = problem

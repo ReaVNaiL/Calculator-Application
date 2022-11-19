@@ -34,15 +34,18 @@ def start_menu(user_name: str):
     # Create the menu
     menu = ConsoleMenu(
         "Practical Math Application",
-        f"Hi {c.Fore.LIGHTYELLOW_EX + user_name}{c.Fore.LIGHTBLUE_EX}!\nA program to help you practice your math skills!",
+        f"Hi {c.Fore.LIGHTYELLOW_EX}{user_name}{c.Fore.LIGHTBLUE_EX}!\nA program to help you practice your math skills!",
         formatter=main_menu_format,
     )
+    
+    # Assign the user profile to a variable
+    user_profile = up.Profile(user_name)
 
     # Create 3 Submenus
-    profile_item = up.UserProfile(user_name, menu, main_menu_format)
+    profile_item = up.UserProfile(user_profile, menu, main_menu_format)
     profile_item.set_menu(menu)
     
-    problems_item = pg.ProblemsGen(menu, main_menu_format)
+    problems_item = pg.ProblemsGen(user_profile, menu, main_menu_format)
     
     instructions_item = im.InstructionsMenu()
 
@@ -60,6 +63,6 @@ def start_menu(user_name: str):
 
 if __name__ == "__main__":
     system("cls")
-    name = input(c.Fore.LIGHTYELLOW_EX + "Hello! Please enter your name: ")
-    # name = "John"
+    # name = input(c.Fore.LIGHTYELLOW_EX + "Hello! Please enter your name: ")
+    name = "John"
     start_menu(name)

@@ -2,6 +2,7 @@ from colorama import Fore, Back, Style
 from consolemenu import *
 from consolemenu.items import *
 from src.helpers.generate_problems import *
+from src.UserProfile import Profile
 
 
 class ProblemsGen:
@@ -11,14 +12,16 @@ class ProblemsGen:
     """
 
     curr_problem: Problem
+    user: Profile
 
     def __new__(
-        self, main_menu: ConsoleMenu, styling: MenuFormatBuilder
+        self, user: Profile, main_menu: ConsoleMenu, styling: MenuFormatBuilder
     ) -> SubmenuItem:
         problem_submenu = ConsoleMenu(
-            "Problems", "Select a difficulty to begin...", formatter=styling
+            "Problems", f"Select a {Fore.LIGHTYELLOW_EX}difficulty{Fore.LIGHTBLUE_EX} to begin...", formatter=styling
         )
-
+        self.user = user
+            
         easy = FunctionItem("Easy", self.generate_problem, args=[self, "Easy"])
         medium = FunctionItem("Medium", self.generate_problem, args=[self, "Medium"])
         hard = FunctionItem("Hard", self.generate_problem, args=[self, "Hard"])
@@ -39,37 +42,41 @@ class ProblemsGen:
         self.curr_problem = generate_random_problem(difficulty)
         prompt = f"What is the solution to {Fore.YELLOW}{self.curr_problem.problem}{Fore.CYAN}?"
         user_input = input(
-            Fore.CYAN + Back.BLACK + prompt + "\nAnswer > " + Fore.YELLOW
+            Fore.CYAN + prompt + "\nAnswer > " + Fore.YELLOW
         )
 
         # while has attempts left
         while self.curr_problem.attempts_left > 0:
             if self.curr_problem.check_solution(user_input):
-                print(Fore.GREEN + Back.BLACK + "\nCorrect!")
+                print(Fore.GREEN + "\nCorrect!")
                 print(self.curr_problem.__repr__(), "\n")
                 break
             else:
-                print(Fore.RED + Back.BLACK + "Incorrect!", end=" ")
+                print(Fore.RED + "Incorrect!", end=" ")
 
                 print(
                     Fore.YELLOW
-                    + Back.BLACK
                     + f"You have {self.curr_problem.attempts_left} attempts left.\n"
                 )
                 self.curr_problem.decrease_attempts()
 
                 user_input = input(
-                    Fore.CYAN + Back.BLACK + prompt + "\nAnswer > " + Fore.YELLOW
+                    Fore.CYAN + prompt + "\nAnswer > " + Fore.YELLOW
                 )
 
         if self.curr_problem.attempts_left == 0:
             print(
                 Fore.RED
-                + Back.BLACK
                 + f"Game Over! The correct answer is {self.curr_problem.solution}.\n"
             )
+        else:
+            self.user.update_score(
+                self.user.score + self.curr_problem.points[difficulty],
+                self.user.problem_count + 1,
+                difficulty,
+            )
 
-        input(Fore.LIGHTBLUE_EX + Back.BLACK + "Press enter to continue...")
+        input(Fore.LIGHTBLUE_EX + "Press enter to continue...")
         return self.curr_problem
 
 

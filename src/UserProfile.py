@@ -2,6 +2,7 @@ from colorama import Fore, Back, Style
 from consolemenu import *
 from consolemenu.items import *
 
+
 class Profile:
     score = 0
     problem_count = 0
@@ -11,10 +12,24 @@ class Profile:
         self.name = name
 
     def __repr__(self):
-        return f"> Name: {self.name}\n> Score: {self.score}\n> Problem Count: {self.problem_count}\n> Max Difficulty: {self.max_difficulty}"
+        return (
+              f"> Name: {Fore.LIGHTYELLOW_EX}{self.name}{Fore.LIGHTBLUE_EX}\n"
+            + f"> Score: {Fore.LIGHTYELLOW_EX}{self.score}{Fore.LIGHTBLUE_EX}\n"
+            + f"> Problem Count: {Fore.LIGHTYELLOW_EX}{self.problem_count}{Fore.LIGHTBLUE_EX}\n"
+            + f"> Max Difficulty: {Fore.LIGHTGREEN_EX}{self.max_difficulty}{Fore.LIGHTBLUE_EX}\n"
+        )
 
-    def update_score(self, score):
+    def update_score(self, score, problem_count, max_difficulty):
         self.score = score
+        self.problem_count = problem_count
+
+        # If the current max difficulty is increased, update it
+        # Easy < Medium < Hard
+        if max_difficulty == "Medium" and self.max_difficulty == "Easy":
+            self.max_difficulty = max_difficulty
+        elif max_difficulty == "Hard" and self.max_difficulty == "Medium":
+            self.max_difficulty = max_difficulty
+
 
 class UserProfile:
     """
@@ -26,26 +41,42 @@ class UserProfile:
     Returns:
         SubmenuItem: The menu item that will be appended to the main menu
     """
+
     user = None
-    def __new__(self, name: str, main_menu: ConsoleMenu, styling: MenuFormatBuilder) -> SubmenuItem:
-        self.user = Profile(name)
-        profile_submenu = ConsoleMenu("User Profile", "View and edit your profile", formatter=styling)
+
+    def __new__(
+        self, user: Profile, main_menu: ConsoleMenu, styling: MenuFormatBuilder
+    ) -> SubmenuItem:
+        # Encapsulate the user profile menu in a submenu
+        self.user = user
+
+        profile_submenu = ConsoleMenu(
+            f"{Fore.LIGHTYELLOW_EX}{user.name}{Fore.LIGHTBLUE_EX}'s Profile",
+            f"View and edit your {Fore.LIGHTYELLOW_EX}profile{Fore.LIGHTBLUE_EX}",
+            formatter=styling,
+        )
         
-        item1 = FunctionItem("Update Stats", self.update_user_stats, args=[self, profile_submenu])
-        item2 = FunctionItem("Delete Stats", self.delete_user_stats, args=[self, profile_submenu])
+        item1 = FunctionItem(
+            "Update Stats", self.update_user_stats, args=[self, profile_submenu]
+        )
+        item2 = FunctionItem(
+            "Delete Stats", self.delete_user_stats, args=[self, profile_submenu]
+        )
 
         profile_submenu.append_item(item1)
         profile_submenu.append_item(item2)
-        
-        return SubmenuItem("User Profile", menu=main_menu, submenu=profile_submenu)
-    
-    def update_user_stats(self, menu: ConsoleMenu):
-        # self.user.score = 23
-        menu.prologue_text = self.user.__repr__()
 
-        # input(Fore.GREEN + Back.BLACK + instructions)
-        # print(Fore.LIGHTBLUE_EX)  # Reset the color
-        
+        return SubmenuItem("User Profile", menu=main_menu, submenu=profile_submenu)
+
+    def update_user_stats(self, menu: ConsoleMenu):
+        menu.prologue_text = self.user.__repr__()
+        print(Fore.LIGHTBLUE_EX)  # Reset the color
+
     def delete_user_stats(self, menu: ConsoleMenu):
         menu.prologue_text = "Stats deleted!"
+
+        self.user.score = 0
+        self.user.problem_count = 0
+        self.user.max_difficulty = "Easy"
+
         print(Fore.LIGHTBLUE_EX)

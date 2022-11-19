@@ -3,8 +3,8 @@
     #                                                                                                                        #
     # The program utilizes quick-recall methodology to ensure students truly understand basic algebra.                       #   
     #                                                                                                                        #
-    # Our goal is to apply basic knowledge of python script to creating an environment of controlled randomness, while also  # 
-    # keeping track of program history.                                                                                      #   
+    # Our goal is to apply basic knowledge of python script to creating an environment of controlled                         #
+    # randomness, while also keeping track of program history.                                                               #
     #                                                                                                                        #
     # Menu:                                                                                                                  #
     # 1. **User Profile**: Where the user can create a profile and save it to a file.                                        #
@@ -17,5 +17,11 @@
     # * The problems are randomly generated, so you can play as many times as you want.                                      #
     # * If you created a profile in the high scores menu, your score will be saved.                                          #
     # * If you don't create a profile, your score will not be saved.                                                         #
+    #                                                                                                                        #
+    # Scoring:                                                                                                               #
+    # * The score is calculated by the number of correct answers.                                                            #
+    # - Easy: 1 point per correct answer.                                                                                    #
+    # - Medium: 3 points per correct answer.                                                                                 #
+    # - Hard: 5 points per correct answer.                                                                                   #
     #                                                                                                                        #
     # Press Enter To Return To Menu >> 
