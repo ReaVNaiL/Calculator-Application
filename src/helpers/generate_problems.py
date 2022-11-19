@@ -1,11 +1,10 @@
 from os import system
 import random
 
-
 class Problem:
-    attempts: int = 0
+    attempts_left: int = 3
 
-    def __init__(self, problem: str, solution: str):
+    def __init__(self, problem: str, solution):
         self.problem = problem
         self.solution = solution
 
@@ -19,7 +18,10 @@ class Problem:
         Args:
             @solution_arg: The solution that the user entered
         """
-        return self.solution == solution_arg
+        return str(self.solution) == solution_arg
+
+    def decrease_attempts(self):
+        self.attempts_left -= 1
 
 
 def generate_random_operator():
@@ -52,7 +54,7 @@ def generate_random_number(m, n):
     return random.uniform(m, n)
 
 
-def generate_random_problem(difficulty: str) -> str:
+def generate_random_problem(difficulty: str) -> Problem:
     """
     Generates a random problem based on the difficulty
     - Easy: 2 digit numbers, 2 operators: addition and subtraction
@@ -86,14 +88,14 @@ def generate_random_problem(difficulty: str) -> str:
         operator = generate_random_operator()
 
     # Create a random problem
-    x = generate_random_number(m, n)
+    x = round(generate_random_number(m, n), 2)
 
     # Make sure that the problem is not a division by zero
-    y = (
+    y = round((
         generate_random_number(m, n)
         if operator[0] != "/"
         else generate_random_number(1, n)
-    )
+    ), 2)
 
     # Create the problem string
     problem = f"({x}) {operator[0]} ({y})"

@@ -2,8 +2,9 @@ import colorama as c
 from consolemenu import *
 from consolemenu.items import *
 from consolemenu.format import *
-import models.UserProfile as up
-import models.InstructionsMenu as im
+import src.UserProfile as up
+import src.InstructionsMenu as im
+import src.ProblemsGen as pg
 
 
 def start_menu(user_name: str):
@@ -37,14 +38,10 @@ def start_menu(user_name: str):
     )
 
     # Create 3 Submenus
-    profile_submenu = ConsoleMenu("User Profile", "View and edit your profile")
-    problems_submenu = ConsoleMenu("Problems", "View and edit your problems")
-
-    # Create the menu items
     profile_item = up.UserProfile(user_name, menu, main_menu_format)
     profile_item.set_menu(menu)
     
-    problems_item = SubmenuItem("Problems", submenu=problems_submenu)
+    problems_item = pg.ProblemsGen(menu, main_menu_format)
     
     instructions_item = im.InstructionsMenu()
 
@@ -61,6 +58,6 @@ def start_menu(user_name: str):
 
 
 if __name__ == "__main__":
-    # name = input("Hello! Please enter your name: ")
-    name = "John"
+    name = input("Hello! Please enter your name: ")
+    # name = "John"
     start_menu(name)
