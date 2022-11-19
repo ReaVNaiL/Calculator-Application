@@ -2,11 +2,11 @@ import colorama as c
 from consolemenu import *
 from consolemenu.items import *
 from consolemenu.format import *
-from models.UserProfile import UserProfile as up
+import models.UserProfile as up
 import models.InstructionsMenu as im
 
 
-def start_menu():
+def start_menu(user_name: str):
     # Create a menu that looks like this:
     # +------------------+
     # | Title Menu       |
@@ -32,7 +32,7 @@ def start_menu():
     # Create the menu
     menu = ConsoleMenu(
         "Practical Math Application",
-        "A program to help you practice your math skills!",
+        f"Hi {user_name}!\nA program to help you practice your math skills!",
         formatter=main_menu_format,
     )
 
@@ -41,8 +41,11 @@ def start_menu():
     problems_submenu = ConsoleMenu("Problems", "View and edit your problems")
 
     # Create the menu items
-    profile_item = SubmenuItem("User Profile", submenu=profile_submenu)
+    profile_item = up.UserProfile(user_name, menu, main_menu_format)
+    profile_item.set_menu(menu)
+    
     problems_item = SubmenuItem("Problems", submenu=problems_submenu)
+    
     instructions_item = im.InstructionsMenu()
 
     # Append the menu items to the main menu
@@ -53,8 +56,11 @@ def start_menu():
     # Create some items
     print(c.Fore.LIGHTBLUE_EX)
     c.init(autoreset=False)
-    menu.show()
+    menu.start()
+    menu.join()
 
 
 if __name__ == "__main__":
-    start_menu()
+    # name = input("Hello! Please enter your name: ")
+    name = "John"
+    start_menu(name)
