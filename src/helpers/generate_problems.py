@@ -1,6 +1,5 @@
 from os import system
 import random
-
 class Problem:
     attempts_left: int = 3
     points = {
@@ -12,9 +11,12 @@ class Problem:
     def __init__(self, problem: str, solution):
         self.problem = problem
         self.solution = solution
+        if type(solution) == str or type(solution) == complex:
+            print("Problem: ", problem, "\nSolution is a", type(solution), ", solution = ", solution)
+        self.rounded_solution = round(solution, 2)
 
     def __repr__(self):
-        return f"{self.problem} = ({self.solution})"
+        return f"{self.problem} = ({self.rounded_solution})"
 
     def check_solution(self, solution_arg: str):
         """
@@ -23,6 +25,7 @@ class Problem:
         Args:
             @solution_arg: The solution that the user entered
         """
+        # if str(self.solution) == solution_arg
         return str(self.solution) == solution_arg
 
     def decrease_attempts(self):
@@ -58,17 +61,8 @@ def generate_random_number(m, n):
     # If the numbers are floats
     return random.uniform(m, n)
 
-
-def generate_random_problem(difficulty: str) -> Problem:
-    """
-    Generates a random problem based on the difficulty
-    - Easy: 2 digit numbers, 2 operators: addition and subtraction
-    - Medium: 3 digit numbers, 4 operators: addition, subtraction, multiplication, and division
-    - Hard: 4 digit numbers, all operators.
-    """
-    problem = ""
-    problem_solution = 0
-    m, n, x, y = 0, 0, 0, 0
+def generate_difficulty_values(difficulty: str):
+    m, n, x, y = 0, 0, 0, 1
 
     if difficulty == "Easy":
         m = 0
@@ -94,20 +88,39 @@ def generate_random_problem(difficulty: str) -> Problem:
 
     # Create a random problem
     x = round(generate_random_number(m, n), 2)
+    y = round((generate_random_number(m, n)), 2)
+    
+    # Make sure that the problem is not a division by zero x / 0
+    if y == 0 and operator[0] == "/" or operator[0] == "//":
+        round(generate_random_number(1, n+1), 2)
+    
+    # if operator[0] == "^" and y < -1 or y > 20 keep the operator 
+    # else generate a new y value between 0 and 20
+    if operator[0] == "^" and y < -1 or y > 20:
+        y = round(generate_random_number(1, 5), 2)
+        
+    return (x, y, operator)
 
-    # Make sure that the problem is not a division by zero
-    y = round((
-        generate_random_number(m, n)
-        if operator[0] != "/"
-        else generate_random_number(1, n)
-    ), 2)
 
+def generate_random_problem(difficulty: str) -> Problem:
+    """
+    Generates a random problem based on the difficulty
+    - Easy: 2 digit numbers, 2 operators: addition and subtraction
+    - Medium: 3 digit numbers, 4 operators: addition, subtraction, multiplication, and division
+    - Hard: 4 digit numbers, all operators.
+    """
+    problem = ""
+    problem_solution = 0
+
+    # Generate the values for the problem
+    x, y, operator = generate_difficulty_values(difficulty)
+    
     # Create the problem string
     problem = f"({x}) {operator[0]} ({y})"
 
     # Calculate the solution
     try:
-        problem_solution = round(operator[1](x, y), 2)
+        problem_solution = operator[1](x, y)
     except:
         problem_solution = "Overflow Error"
 
