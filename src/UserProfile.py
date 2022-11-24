@@ -46,6 +46,7 @@ class UserProfile:
 
     user = None
     submenu: SubmenuItem
+    profile_console: ConsoleMenu
 
     def __init__(self, user: Profile, main_menu: ConsoleMenu, styling: MenuFormatBuilder):
         profile_submenu = ConsoleMenu(
@@ -56,9 +57,11 @@ class UserProfile:
         
         # Encapsulate the user profile menu in a submenu
         self.user = user
+        self.profile_console = profile_submenu
         self.update_user_stats(profile_submenu)
         
-        item1 = FunctionItem("Update Stats", self.update_user_stats, args=[profile_submenu])
+        
+        item1 = FunctionItem("Export Stats", self.export_user_stats, args=[])
         item2 = FunctionItem("Delete Stats", self.delete_user_stats, args=[profile_submenu])
 
         profile_submenu.append_item(item1)
@@ -67,9 +70,18 @@ class UserProfile:
         self.submenu = SubmenuItem("User Profile", menu=main_menu, submenu=profile_submenu)
 
     def update_user_stats(self, menu: ConsoleMenu):
+        """
+        This function will update the user's stats and display them in the menu.
+        
+        Args:
+            menu (ConsoleMenu): The menu that will be updated
+        """
         menu.prologue_text = self.user.__repr__()
         print(Fore.LIGHTBLUE_EX)  # Reset the color
 
+    def export_user_stats(self):
+        pass
+    
     def delete_user_stats(self, menu: ConsoleMenu):
         menu.prologue_text = "Stats deleted!"
 

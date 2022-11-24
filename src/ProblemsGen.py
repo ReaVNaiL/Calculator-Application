@@ -56,8 +56,10 @@ class ProblemsGen:
             @param difficulty: The difficulty of the problem
         """
         self.curr_problem = generate_random_problem(difficulty)
+        problem_str = self.curr_problem.problem
 
-        user_input = self.prompt_user(self.curr_problem.problem)
+        # Display the problem
+        user_input = self.prompt_user(problem_str)
         
         # while has attempts left
         while self.curr_problem.attempts_left > 0:
@@ -71,7 +73,7 @@ class ProblemsGen:
                 print(Fore.YELLOW + f"You have {self.curr_problem.attempts_left} attempts left.\n")
                 self.curr_problem.decrease_attempts()
                 # Ask For Input Again.
-                user_input = self.prompt_user()
+                user_input = self.prompt_user(problem_str)
 
         # If the user has no attempts left, display the correct answer.
         # Or if the user has answered correctly, display the correct answer.
@@ -79,12 +81,12 @@ class ProblemsGen:
         if self.curr_problem.attempts_left == 0:
             print(Fore.RED + f"Game Over! The correct answer is {self.curr_problem.solution}.\n")
         else:
-            self.profile_submenu.update_user_stats(self.profile_submenu.submenu)
             self.user.update_score(
                 self.user.score + self.curr_problem.points[difficulty],
                 self.user.problem_count + 1,
                 difficulty
             )
+            self.profile_submenu.update_user_stats(self.profile_submenu.profile_console)
 
         input(Fore.LIGHTBLUE_EX + "Press enter to continue...")
         return self.curr_problem
