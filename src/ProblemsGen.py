@@ -4,7 +4,6 @@ from consolemenu.items import *
 from src.helpers.generate_problems import *
 from src.UserProfile import Profile, UserProfile
 
-
 class ProblemsGen:
     """
     Class to generate a problem based on the difficulty.
@@ -59,7 +58,7 @@ class ProblemsGen:
         problem_str = self.curr_problem.problem
 
         # Display the problem
-        user_input = self.prompt_user(problem_str)
+        user_input = self.prompt_user(self, problem_str)
         
         # while has attempts left
         while self.curr_problem.attempts_left > 0:
@@ -73,7 +72,7 @@ class ProblemsGen:
                 print(Fore.YELLOW + f"You have {self.curr_problem.attempts_left} attempts left.\n")
                 self.curr_problem.decrease_attempts()
                 # Ask For Input Again.
-                user_input = self.prompt_user(problem_str)
+                user_input = self.prompt_user(self, problem_str)
 
         # If the user has no attempts left, display the correct answer.
         # Or if the user has answered correctly, display the correct answer.
@@ -91,9 +90,11 @@ class ProblemsGen:
         input(Fore.LIGHTBLUE_EX + "Press enter to continue...")
         return self.curr_problem
 
-    def prompt_user(problem) -> str:
+    def prompt_user(self, problem: str) -> float:
         """
         Prompt the user for their answer.
+        
+        Using recursion, it will check if the user's input is a valid number.
         
         Args:
             @param problem: The problem to be displayed
@@ -101,11 +102,14 @@ class ProblemsGen:
         prompt = f"What is the solution to {Fore.YELLOW}{problem}{Fore.CYAN}?"
         
         # while not numeric input print error message and ask for input again
-        user_input = input(Fore.CYAN + prompt + "\nAnswer > " + Fore.YELLOW).strip()
+        user_input = input(Fore.CYAN + prompt + "\nAnswer > " + Fore.YELLOW).replace(" ", "")
         
-        while user_input.isalpha() or user_input == "":
+        try:
+            user_input = float(user_input)
+        except ValueError:
             print(Fore.RED + "\nYour answer can only contain numbers. Please try again...\n")
-            user_input = input(Fore.CYAN + prompt + "\nAnswer > " + Fore.YELLOW)
+            # Using Recursion To Ask For Input Again
+            return self.prompt_user(self, problem)
         
         return user_input
 

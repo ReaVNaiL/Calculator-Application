@@ -18,20 +18,13 @@ class Problem:
     def __repr__(self):
         return f"{self.problem} = ({self.rounded_solution})"
 
-    def check_solution(self, solution_arg: str):
+    def check_solution(self, solution_arg: float):
         """
         Checks if the solution is correct
 
         Args:
             @solution_arg: The solution that the user entered
         """
-        # if solution_arg is not empty
-        if not solution_arg or solution_arg.isspace():
-            return False
-        
-
-        solution_arg = float(solution_arg)
-        
         rounded_solution_arg = round(solution_arg, 2)
         
         return solution_arg == self.rounded_solution or rounded_solution_arg == self.rounded_solution or solution_arg == self.solution

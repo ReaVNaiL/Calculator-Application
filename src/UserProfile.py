@@ -80,6 +80,9 @@ class UserProfile:
         print(Fore.LIGHTBLUE_EX)  # Reset the color
 
     def export_user_stats(self):
+        """
+        TBD
+        """
         pass
     
     def delete_user_stats(self, menu: ConsoleMenu):
