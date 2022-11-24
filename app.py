@@ -63,6 +63,6 @@ def start_menu(user_name: str):
 
 if __name__ == "__main__":
     system("cls")
-    # name = input(c.Fore.LIGHTYELLOW_EX + "Hello! Please enter your name: ")
-    name = "John"
+    name = input(c.Fore.LIGHTYELLOW_EX + "Hello! Please enter your name: ")
+    # name = "John"
     start_menu(name)

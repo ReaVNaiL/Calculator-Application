@@ -85,6 +85,8 @@ class ProblemsGen:
                 self.user.problem_count + 1,
                 difficulty
             )
+            print(f"Your score has been updated! +{self.curr_problem.points[difficulty]}\n")
+            print(Fore.LIGHTBLUE_EX + self.user.__repr__())
             self.profile_submenu.update_user_stats(self.profile_submenu.profile_console)
 
         input(Fore.LIGHTBLUE_EX + "Press enter to continue...")

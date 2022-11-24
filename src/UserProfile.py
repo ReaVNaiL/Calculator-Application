@@ -61,8 +61,8 @@ class UserProfile:
         self.update_user_stats(profile_submenu)
         
         
-        item1 = FunctionItem("Export Stats", self.export_user_stats, args=[])
-        item2 = FunctionItem("Import Stats", self.delete_user_stats, args=[profile_submenu])
+        item1 = FunctionItem("Export Stats *TBD*", self.export_user_stats, args=[])
+        item2 = FunctionItem("Import Stats *TBD*", self.delete_user_stats, args=[profile_submenu])
         item3 = FunctionItem("Delete Stats", self.delete_user_stats, args=[profile_submenu])
 
         profile_submenu.append_item(item1)
