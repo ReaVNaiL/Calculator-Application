@@ -9,7 +9,7 @@ import src.ProblemsGen as pg
 
 
 def start_menu(user_name: str):
-    # Create a menu that looks like this:
+    # A menu that looks like this:
     # +------------------+
     # | Title Menu       |
     # | Menu Subtitle    |
@@ -43,14 +43,14 @@ def start_menu(user_name: str):
 
     # Create 3 Submenus
     profile_item = up.UserProfile(user_profile, menu, main_menu_format)
-    profile_item.set_menu(menu)
+    profile_item.submenu.set_menu(menu)
     
-    problems_item = pg.ProblemsGen(user_profile, menu, main_menu_format)
+    problems_item = pg.ProblemsGen(user_profile, profile_item, menu, main_menu_format)
     
     instructions_item = im.InstructionsMenu()
 
     # Append the menu items to the main menu
-    menu.append_item(profile_item)
+    menu.append_item(profile_item.submenu)
     menu.append_item(problems_item)
     menu.append_item(instructions_item)
 
