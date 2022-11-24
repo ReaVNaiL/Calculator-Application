@@ -7,6 +7,11 @@ class Profile:
     score = 0
     problem_count = 0
     max_difficulty = "Easy"
+    diff_scale = {
+        "Easy": 1,
+        "Medium": 2,
+        "Hard": 3,
+    }
 
     def __init__(self, name):
         self.name = name
@@ -22,51 +27,44 @@ class Profile:
     def update_score(self, score, problem_count, max_difficulty):
         self.score = score
         self.problem_count = problem_count
-
-        # If the current max difficulty is increased, update it
-        # Easy < Medium < Hard
-        if max_difficulty == "Medium" and self.max_difficulty == "Easy":
+        
+        if self.diff_scale[max_difficulty] > self.diff_scale[self.max_difficulty]:
             self.max_difficulty = max_difficulty
-        elif max_difficulty == "Hard" and self.max_difficulty == "Medium":
-            self.max_difficulty = max_difficulty
-
 
 class UserProfile:
     """
     This is the menu that will be displayed when the user selects the "User Profile" option from the main menu.
+    
     Args:
         name (str): The name of the user
         main_menu (ConsoleMenu): The main menu that the user will be returned to after exiting this menu
         styling (MenuFormatBuilder): The styling for the menu
+    
     Returns:
         SubmenuItem: The menu item that will be appended to the main menu
     """
 
     user = None
+    submenu: SubmenuItem
 
-    def __new__(
-        self, user: Profile, main_menu: ConsoleMenu, styling: MenuFormatBuilder
-    ) -> SubmenuItem:
-        # Encapsulate the user profile menu in a submenu
-        self.user = user
-
+    def __init__(self, user: Profile, main_menu: ConsoleMenu, styling: MenuFormatBuilder):
         profile_submenu = ConsoleMenu(
             f"{Fore.LIGHTYELLOW_EX}{user.name}{Fore.LIGHTBLUE_EX}'s Profile",
             f"View and edit your {Fore.LIGHTYELLOW_EX}profile{Fore.LIGHTBLUE_EX}",
             formatter=styling,
         )
         
-        item1 = FunctionItem(
-            "Update Stats", self.update_user_stats, args=[self, profile_submenu]
-        )
-        item2 = FunctionItem(
-            "Delete Stats", self.delete_user_stats, args=[self, profile_submenu]
-        )
+        # Encapsulate the user profile menu in a submenu
+        self.user = user
+        self.update_user_stats(profile_submenu)
+        
+        item1 = FunctionItem("Update Stats", self.update_user_stats, args=[profile_submenu])
+        item2 = FunctionItem("Delete Stats", self.delete_user_stats, args=[profile_submenu])
 
         profile_submenu.append_item(item1)
         profile_submenu.append_item(item2)
 
-        return SubmenuItem("User Profile", menu=main_menu, submenu=profile_submenu)
+        self.submenu = SubmenuItem("User Profile", menu=main_menu, submenu=profile_submenu)
 
     def update_user_stats(self, menu: ConsoleMenu):
         menu.prologue_text = self.user.__repr__()
