@@ -1,5 +1,7 @@
 from os import system
 import random
+
+
 class Problem:
     attempts_left: int = 3
     points = {
@@ -11,8 +13,6 @@ class Problem:
     def __init__(self, problem: str, solution):
         self.problem = problem
         self.solution = solution
-        if type(solution) == str or type(solution) == complex:
-            print("Problem: ", problem, "\nSolution is a", type(solution), ", solution = ", solution)
         self.rounded_solution = round(solution, 2)
 
     def __repr__(self):
@@ -25,8 +25,16 @@ class Problem:
         Args:
             @solution_arg: The solution that the user entered
         """
-        # if str(self.solution) == solution_arg
-        return str(self.solution) == solution_arg
+        # if solution_arg is not empty
+        if not solution_arg or solution_arg.isspace():
+            return False
+        
+
+        solution_arg = float(solution_arg)
+        
+        rounded_solution_arg = round(solution_arg, 2)
+        
+        return solution_arg == self.rounded_solution or rounded_solution_arg == self.rounded_solution or solution_arg == self.solution
 
     def decrease_attempts(self):
         self.attempts_left -= 1
@@ -52,7 +60,6 @@ def generate_random_operator():
     return random.choice(list(operators.items()))
 
 
-# Return a random number between
 def generate_random_number(m, n):
     # If the numbers are integers check the type
     if type(m) == int and type(n) == int:
@@ -61,7 +68,8 @@ def generate_random_number(m, n):
     # If the numbers are floats
     return random.uniform(m, n)
 
-def generate_difficulty_values(difficulty: str):
+
+def get_difficulty_values(difficulty: str):
     m, n, x, y = 0, 0, 0, 1
 
     if difficulty == "Easy":
@@ -89,16 +97,16 @@ def generate_difficulty_values(difficulty: str):
     # Create a random problem
     x = round(generate_random_number(m, n), 2)
     y = round((generate_random_number(m, n)), 2)
-    
+
     # Make sure that the problem is not a division by zero x / 0
     if y == 0 and operator[0] == "/" or operator[0] == "//":
-        round(generate_random_number(1, n+1), 2)
-    
-    # if operator[0] == "^" and y < -1 or y > 20 keep the operator 
+        round(generate_random_number(1, n + 1), 2)
+
+    # if operator[0] == "^" and y < -1 or y > 20 keep the operator
     # else generate a new y value between 0 and 20
     if operator[0] == "^" and y < -1 or y > 20:
         y = round(generate_random_number(1, 5), 2)
-        
+
     return (x, y, operator)
 
 
@@ -113,8 +121,8 @@ def generate_random_problem(difficulty: str) -> Problem:
     problem_solution = 0
 
     # Generate the values for the problem
-    x, y, operator = generate_difficulty_values(difficulty)
-    
+    x, y, operator = get_difficulty_values(difficulty)
+
     # Create the problem string
     problem = f"({x}) {operator[0]} ({y})"
 
