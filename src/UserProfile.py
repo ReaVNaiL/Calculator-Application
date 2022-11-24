@@ -62,10 +62,12 @@ class UserProfile:
         
         
         item1 = FunctionItem("Export Stats", self.export_user_stats, args=[])
-        item2 = FunctionItem("Delete Stats", self.delete_user_stats, args=[profile_submenu])
+        item2 = FunctionItem("Import Stats", self.delete_user_stats, args=[profile_submenu])
+        item3 = FunctionItem("Delete Stats", self.delete_user_stats, args=[profile_submenu])
 
         profile_submenu.append_item(item1)
         profile_submenu.append_item(item2)
+        profile_submenu.append_item(item3)
 
         self.submenu = SubmenuItem("User Profile", menu=main_menu, submenu=profile_submenu)
 
@@ -79,12 +81,6 @@ class UserProfile:
         menu.prologue_text = self.user.__repr__()
         print(Fore.LIGHTBLUE_EX)  # Reset the color
 
-    def export_user_stats(self):
-        """
-        TBD
-        """
-        pass
-    
     def delete_user_stats(self, menu: ConsoleMenu):
         menu.prologue_text = "Stats deleted!"
 
@@ -93,3 +89,16 @@ class UserProfile:
         self.user.max_difficulty = "Easy"
 
         print(Fore.LIGHTBLUE_EX)
+        
+    def export_user_stats(self):
+        """
+        TBD
+        """
+        pass
+    
+    def import_user_stats(self):
+        """
+        TBD
+        """
+        pass
+    
